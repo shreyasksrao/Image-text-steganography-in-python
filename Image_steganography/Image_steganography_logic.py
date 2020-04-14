@@ -115,9 +115,8 @@ def decode(img):
 
 
 def weight_2_grey(weights, img, width, height):
-    # print(weights)
     x = np.array(weights).astype('uint8')
     x = x.reshape(height, width)
     # image = Image.fromarray(x, 'L')
     # image = image.save('dec.png')
-    cv2.imwrite('Files/{}.png'.format(str(img)), x)
+    cv2.imwrite('Files/{}'.format(str(img)), x)

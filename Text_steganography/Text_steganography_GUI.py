@@ -63,16 +63,16 @@ class Text_steganography(tk.Frame):
         self.label1.pack(expand=True, fill=tk.BOTH, anchor='n')
 
     def take_file(self):
-        self.file_name = askopenfilename(defaultextension=".png", title='Choose image file', initialdir='F:\Photos',
+        self.file_name = askopenfilename(defaultextension=".png", title='Choose image file', initialdir='C:\Pictures',
                                          filetypes=[("All Files", "*.*"),
                                                     ("PNG", "*.png"),
                                                     ("JPEG", "*.jpg")])
         self.file_name_var.set(self.file_name)
 
-        w,h = self.get_dimension_of_original_img()
-        max_let, entered = self.image_characters(w, h)
-        text= 'Details about Image\nFile name : {}\t\tImage Dimension : {}x{}\
-        \t\tMaximum letters encoded : {}\t\tLetters entered : {}'.format(self.file_name, w, h, max_let, entered)
+        w, h = self.get_dimension_of_original_img()
+        max_let = self.image_characters(w, h)
+        text = 'Details about Image\nFile name : {}\t\tImage Dimension : {}x{}\
+        \t\tMaximum letters encoded : {}\t\t'.format(self.file_name, w, h, max_let)
         self.label1.config(text=text)
 
     def get_text(self):
@@ -88,15 +88,13 @@ class Text_steganography(tk.Frame):
         image = cv2.imread(file, cv2.IMREAD_UNCHANGED)
         self.width = int(image.shape[1])
         self.height = int(image.shape[0])
-        return (self.width, self.height)
+        return self.width, self.height
 
     def image_characters(self, width, height):
         total_pixels = width * height
         total_rgb_vals = total_pixels * 3
         max_letters_encoded = int(total_rgb_vals/9)
-        text, length = self.get_text()
-        letters_entered = length
-        return [max_letters_encoded, letters_entered]
+        return max_letters_encoded
 
     def encrypt(self):
         text, length = self.get_text()
@@ -119,5 +117,5 @@ class Text_steganography(tk.Frame):
         if decoded_data == 0:
             messagebox.showerror("File not found", "File with given name does not exist\nGive valid name")
         self.text.delete('1.0', tk.END)
-        text = '..............DECODED DATA..............\n' +decoded_data
+        text = '..............DECODED DATA..............\n' + decoded_data
         self.text.insert('1.0', text)

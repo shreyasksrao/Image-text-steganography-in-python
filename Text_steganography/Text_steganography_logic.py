@@ -1,15 +1,15 @@
 from PIL import Image
 
 
-def genData(data):
+def gen_data(data):
     newd = []
     for i in data:
         newd.append(format(ord(i), '08b'))
     return newd
 
 
-def modPix(pix, data):
-    datalist = genData(data)
+def mod_pix(pix, data):
+    datalist = gen_data(data)
     lendata = len(datalist)
     imdata = iter(pix)
     for i in range(lendata):
@@ -37,7 +37,7 @@ def modPix(pix, data):
 def encode_enc(newimg, data):
     w = newimg.size[0]
     (x, y) = (0, 0)
-    for pixel in modPix(newimg.getdata(), data):
+    for pixel in mod_pix(newimg.getdata(), data):
         newimg.putpixel((x, y), pixel)
         if x == w - 1:
             x = 0
@@ -53,7 +53,7 @@ def encode(img, data, new_img_name=None, save_flag=0):
     newimg = image.copy()
     encode_enc(newimg, data)
     if save_flag == 1:
-        newimg.save(new_img_name, str(new_img_name.split(".")[1].upper()))
+        newimg.save('Files/'+new_img_name, str(new_img_name.split(".")[1].upper()))
     return data
 
 
@@ -74,6 +74,7 @@ def decode(img):
                     binstr += '1'
             data += chr(int(binstr, 2))
             if pixels[-1] % 2 != 0:
+                print(data)
                 return data
     except (FileNotFoundError, IOError):
         return 0
